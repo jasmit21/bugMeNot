@@ -1,42 +1,32 @@
-const { Model, DataTypes } = require('sequelize');
+// const sequelize = require('./dbConfig')
 
-class User extends Model {}
-User.init({
-  // attributes
-  firstName: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  lastName: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  mobile:{
-    type:DataTypes.NUMBER,
-    allowNull:false,    
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false
-  }
-}, {
-  // options
-  sequelize,
-  modelName: 'user'
+const { Sequelize, DataTypes } = require("sequelize");
+const dbconnect = require("./dbConfig");
+
+
+const User = dbconnect.define("userDetails", {
+    Name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    Email: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    number: {
+        type: DataTypes.STRING,
+    },
+    password: {
+        type: DataTypes.STRING,
+    }
 });
 
-sequelize.sync();
 
-const newUser = await User.create({
-    firstName: 'John',
-    lastName: 'Doe',
-    mobile:9076323541,
-    email: 'johndoe@example.com',
-    password: 'secret'
-  });
-  
+
+dbconnect.sync().then(() => {
+    console.log('Book table created successfully!');
+}).catch((error) => {
+    console.error('Unable to create table : ', error);
+});
+
+module.exports = User;

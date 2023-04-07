@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
- 
+
 const sequelize = new Sequelize('bugMeNot', 'bugmenot', 'bugmenot', {
   host: '128.199.23.207',
   dialect:'mysql',
@@ -11,12 +11,11 @@ try {
 } catch (error) {
   console.error('Unable to connect to the database:', error);
 }
-//
+
+//pool.qry 
 const mysql = require('mysql2');
 // const homeController = require('../controllers/homeController');
 const pool = mysql.createPool({
-
-
 
     host: "128.199.23.207",
     user: "bugmenot",
@@ -24,18 +23,11 @@ const pool = mysql.createPool({
     database: 'bugMeNot',
     multipleStatements: false,
     connectionLimit : 100,
-
-    // host: "128.199.23.207",
-    // user: "cluedin",
-    // password: "cluedin",
-    // database: 'cluedin',
-    
-
 });
 pool.getConnection((err)=>{
     if (err) throw err;    
     console.log("DATABASE CONNECTED!!!");
 });
 
-module.exports = pool; 
 module.exports = sequelize;
+// module.exports = ;

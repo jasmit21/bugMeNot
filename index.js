@@ -2,8 +2,9 @@
 const express = require("express");
 require("dotenv").config();
 const app = express();
-// const bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 const database = require('./models/dbConfig')
+const userModel = require('./models/userModel')
 
 //flash
 var flash = require("connect-flash");
@@ -13,7 +14,7 @@ app.use(flash());
 const sessions = require("express-session");
 const cookieParser = require("cookie-parser");
 
-//set ccokie-parser
+//set cookie-parser
 app.use(cookieParser());
 
 //----------------session setup------------------------
@@ -37,15 +38,43 @@ app.set("view engine", "ejs");
 
 //configuring middlewares to handle post request
 
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json()); // to support JSON-encoded bodies
-// app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json()); // to support JSON-encoded bodies
+app.use(express.json());
 
 
 //routes 
 app.get('/',(req,res)=>{
-    database.sequelize;
-    res.send("<h1>Hello Guys</h1>")
+    // database.sequelize;
+    // res.send("<h1>Hello Guys</h1>")
+    // userModel
+    console.log("body:",req.query)
+    // userModel.create()
+})
+app.post('/auth',(req,res)=>{
+  // database.sequelize;
+  // res.send("<h1>Hello Guys</h1>")
+  // userModel
+  console.log("inside post req");
+  
+
+
+  let {name,email,mobno,pass}=req.body;
+  console.log("body:",name,email,mobno,pass)
+  userModel.sync({
+    alter:true
+  }).then(()=>{
+    return  userModel.create({
+      Name:name,
+      Email:email,
+      number:mobno,
+      password:pass 
+    })
+  }).then((data)=>{
+    console.log("data",data.toJSON());
+  }).catch((err)=>{
+    console.log("error",err);
+  })
 })
 
 
