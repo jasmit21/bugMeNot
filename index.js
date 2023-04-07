@@ -3,7 +3,7 @@ const express = require("express");
 require("dotenv").config();
 const app = express();
 // const bodyParser = require("body-parser");
-
+const database = require('./models/dbConfig')
 
 //flash
 var flash = require("connect-flash");
@@ -44,8 +44,10 @@ app.set("view engine", "ejs");
 
 //routes 
 app.get('/',(req,res)=>{
+    database.sequelize;
     res.send("<h1>Hello Guys</h1>")
 })
+
 
 //creating server
 var port = process.env.PORT || 5000;
